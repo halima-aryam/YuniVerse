@@ -1,0 +1,72 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.5rem;
+  min-height: 150px;
+  transition: all 0.5s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.completed {
+  opacity: 0.6;
+  transform: scale(0.98);
+  box-shadow: none !important;
+}
+
+.completed::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, transparent, rgba(var(--accent-rgb), 0.1));
+  pointer-events: none;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.prompt {
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: var(--text-primary);
+  font-family: var(--font-serif), serif;
+}
+
+.completed .prompt {
+  text-decoration: line-through;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 2px;
+}
+
+.actionBtn {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  padding: 8px 16px;
+  border-radius: 20px;
+  align-self: center;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+
+.actionBtn:hover {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border-color: var(--text-primary);
+}
+
+.completed .actionBtn {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: transparent;
+}

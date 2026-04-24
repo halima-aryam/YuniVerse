@@ -1,0 +1,55 @@
+.container {
+  padding: 2.5rem;
+  margin-top: 4rem;
+  border-top: 2px dashed var(--border-color);
+  background: linear-gradient(180deg, transparent, rgba(var(--accent-rgb), 0.05));
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-family: var(--font-serif), serif;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+}
+
+.prompts {
+  font-size: 1.15rem;
+  font-family: var(--font-serif), serif;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+
+.journalInput {
+  width: 100%;
+  min-height: 150px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1rem;
+  font-family: var(--font-serif), serif;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  resize: vertical;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.journalInput:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(var(--accent-rgb), 0.2);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+}
