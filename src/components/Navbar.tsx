@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import { User } from "@supabase/supabase-js";
 import { AuthModal } from "./AuthModal";
+import styles from "./Navbar.module.css";
 
 export function Navbar({ showBack = false }: { showBack?: boolean }) {
   const [user, setUser] = useState<User | null>(null);
@@ -35,48 +36,29 @@ export function Navbar({ showBack = false }: { showBack?: boolean }) {
 
   return (
     <>
-      <nav style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: '2rem 0',
-        width: '100%',
-        maxWidth: '1200px',
-        margin: '0 auto'
-      }}>
+      <nav className={styles.nav}>
         {showBack ? (
-          <Link href="/" style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', transition: 'color 0.2s ease', textDecoration: 'none' }}>
+          <Link href="/" className={styles.backLink}>
             ← Back to yuniverse
           </Link>
         ) : (
-          <div style={{ fontFamily: 'var(--font-serif), serif', fontSize: '1.5rem', fontWeight: 600, letterSpacing: '-0.02em' }}>
-            <span style={{ fontStyle: 'italic', color: 'var(--accent)' }}>yuni</span>verse
+          <div className={styles.logo}>
+            <span>yuni</span>verse
           </div>
         )}
 
-        <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
-          <Link href="/explore" style={{ color: 'var(--text-secondary)', transition: 'color 0.2s ease', fontWeight: 500, textDecoration: 'none' }}>
+        <div className={styles.links}>
+          <Link href="/explore" className={styles.linkItem}>
             Explore
           </Link>
           {user && (
-            <Link href="/cabinet" style={{ color: 'var(--text-secondary)', transition: 'color 0.2s ease', fontWeight: 500, textDecoration: 'none' }}>
+            <Link href="/cabinet" className={styles.linkItem}>
               My Cabinet
             </Link>
           )}
           <button 
             onClick={handleAuthClick}
-            style={{
-              background: 'transparent',
-              border: 'none',
-              color: 'var(--text-secondary)',
-              fontWeight: 500,
-              cursor: 'pointer',
-              fontSize: '1rem',
-              fontFamily: 'var(--font-sans), sans-serif',
-              transition: 'color 0.2s ease'
-            }}
-            onMouseEnter={e => e.currentTarget.style.color = 'var(--text-primary)'}
-            onMouseLeave={e => e.currentTarget.style.color = 'var(--text-secondary)'}
+            className={styles.authBtn}
           >
             {user ? 'Log out' : 'Log in'}
           </button>
