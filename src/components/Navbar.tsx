@@ -51,11 +51,9 @@ export function Navbar({ showBack = false }: { showBack?: boolean }) {
           <Link href="/explore" className={styles.linkItem}>
             Explore
           </Link>
-          {user && (
-            <Link href="/cabinet" className={styles.linkItem}>
-              My Cabinet
-            </Link>
-          )}
+          <Link href="/cabinet" className={styles.linkItem}>
+            My Cabinet
+          </Link>
           <button 
             onClick={handleAuthClick}
             className={styles.authBtn}

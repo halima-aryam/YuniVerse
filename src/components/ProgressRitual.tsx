@@ -10,7 +10,7 @@ interface ProgressRitualProps {
   vibe: string;
 }
 
-export function ProgressRitual({ syllabusTitle, vibe }: ProgressRitualProps) {
+export function ProgressRitual({ syllabusTitle = "Daily Journal", vibe = "minimal" }: Partial<ProgressRitualProps>) {
   const [reflection, setReflection] = useState("");
   const [isSealed, setIsSealed] = useState(false);
   const [isSaving, setIsSaving] = useState(false);

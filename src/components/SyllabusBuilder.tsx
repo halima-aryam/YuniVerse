@@ -6,7 +6,7 @@ import styles from "../app/builder/page.module.css";
 import { useTheme } from "./ThemeProvider";
 import { HomeworkCard } from "./HomeworkCard";
 import { ThemeSelector } from "./ThemeSelector";
-import { ProgressRitual } from "./ProgressRitual";
+
 import { supabase } from "@/lib/supabaseClient";
 import { useToast } from "./ToastProvider";
 
@@ -239,7 +239,6 @@ export function SyllabusBuilder() {
           </div>
         ))}
 
-        <ProgressRitual syllabusTitle={courseName} vibe={theme} />
       </div>
     );
   }
