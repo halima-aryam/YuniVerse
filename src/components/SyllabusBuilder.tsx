@@ -24,6 +24,10 @@ export function SyllabusBuilder() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [isJourneyStarted, setIsJourneyStarted] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [emailCapture, setEmailCapture] = useState("");
+  const [hasJoinedWaitlist, setHasJoinedWaitlist] = useState(false);
+  const [isSubmittingEmail, setIsSubmittingEmail] = useState(false);
+  const [hasGenerated, setHasGenerated] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [modules, setModules] = useState<Module[]>([
     { id: "1", title: "Introduction", items: ["Read chapter 1"] }
@@ -95,6 +99,7 @@ export function SyllabusBuilder() {
       if (data.modules) {
         setModules(data.modules);
         setResources(data.resources || []);
+        setHasGenerated(true);
         showToast("Path discovered successfully!", "success");
       } else {
         showToast("Failed to generate curriculum. " + (data.error || ""), "error");
@@ -153,6 +158,26 @@ export function SyllabusBuilder() {
       showToast("Failed to save syllabus. Did you run the SQL schema script in Supabase?", "error");
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const joinWaitlist = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!emailCapture || !emailCapture.includes("@")) return;
+    setIsSubmittingEmail(true);
+    try {
+      const { error } = await supabase.from('waitlist').insert({
+        email: emailCapture,
+        path_topic: courseName || "Untitled"
+      });
+      if (error) throw error;
+      setHasJoinedWaitlist(true);
+      showToast("Email saved! We'll keep your path safe.", "success");
+    } catch (err) {
+      console.error(err);
+      showToast("Something went wrong saving your email.", "error");
+    } finally {
+      setIsSubmittingEmail(false);
     }
   };
 
@@ -294,6 +319,32 @@ export function SyllabusBuilder() {
           </div>
         ))}
       </div>
+
+      {hasGenerated && !user && !hasJoinedWaitlist && (
+        <form onSubmit={joinWaitlist} className="glass-panel" style={{ padding: "2.5rem", marginBottom: "2rem", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "1rem" }}>
+          <h3 style={{ fontFamily: "var(--font-serif), serif", fontSize: "1.6rem" }}>Save your path</h3>
+          <p style={{ color: "var(--text-secondary)", fontSize: "1rem" }}>Drop your email to keep it safe for later.</p>
+          <div style={{ display: "flex", gap: "0.5rem", width: "100%", maxWidth: "400px", marginTop: "0.5rem" }}>
+            <input 
+              type="email" 
+              value={emailCapture}
+              onChange={(e) => setEmailCapture(e.target.value)}
+              placeholder="Your email address..."
+              style={{ flex: 1, padding: "0.8rem 1.2rem", borderRadius: "9999px", border: "1px solid var(--border-color)", background: "var(--bg-primary)", color: "var(--text-primary)", fontFamily: "inherit" }}
+              required
+            />
+            <button type="submit" disabled={isSubmittingEmail} className="btn-primary" style={{ padding: "0.8rem 1.5rem" }}>
+              {isSubmittingEmail ? "..." : "Save"}
+            </button>
+          </div>
+        </form>
+      )}
+      
+      {hasJoinedWaitlist && !user && (
+         <div className="glass-panel" style={{ padding: "1.5rem", marginBottom: "2rem", textAlign: "center", background: "rgba(var(--accent-rgb), 0.05)" }}>
+           <p style={{ color: "var(--accent)", fontWeight: 500, fontSize: "1.1rem" }}>✨ We've saved your magical path!</p>
+         </div>
+      )}
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: "1rem" }}>
         <button className="btn-primary" onClick={addModule}>
