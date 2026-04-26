@@ -126,6 +126,13 @@ Return ONLY valid JSON. Do not include markdown code block syntax.`;
     return NextResponse.json(data);
   } catch (error: any) {
     console.error("API Error:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    let errorMessage = error.message || "An unknown error occurred.";
+    
+    // If it's a massive Google RPC error dump, make it user-friendly
+    if (typeof errorMessage === 'string' && (errorMessage.includes("type.googleapis.com") || errorMessage.includes("details"))) {
+       errorMessage = "The magical AI encountered a small hiccup (usually a safety filter or temporary overload). Please try rephrasing your topic!";
+    }
+    
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
