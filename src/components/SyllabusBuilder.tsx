@@ -206,7 +206,7 @@ export function SyllabusBuilder() {
     return (
       <div className={styles.builderContainer}>
         <div style={{ textAlign: "center", marginBottom: "3rem" }}>
-          <h2 style={{ fontSize: "2.5rem", fontFamily: "var(--font-serif), serif" }}>{courseName || "Your Journey"}</h2>
+          <h2>{courseName || "Your Journey"}</h2>
           <p style={{ color: "var(--text-secondary)", marginTop: "0.5rem" }}>Take it one spark at a time.</p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginTop: '1rem' }}>
             <button 
@@ -228,7 +228,7 @@ export function SyllabusBuilder() {
         
         {modules.map((mod) => (
           <div key={mod.id} style={{ marginBottom: "4rem" }}>
-            <h3 style={{ fontSize: "1.8rem", fontFamily: "var(--font-serif), serif", marginBottom: "1.5rem", textAlign: "center" }}>
+            <h3 style={{ marginBottom: "1.5rem", textAlign: "center" }}>
               {mod.title}
             </h3>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.5rem" }}>

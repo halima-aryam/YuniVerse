@@ -83,6 +83,20 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.2;
 }
 
+h1 { font-size: 3rem; }
+h2 { font-size: 2.2rem; }
+h3 { font-size: 1.6rem; }
+
+@media (max-width: 768px) {
+  h1 { font-size: 2.2rem !important; }
+  h2 { font-size: 1.8rem !important; }
+  h3 { font-size: 1.4rem !important; }
+  
+  .glass-panel {
+    padding: 1.2rem !important;
+  }
+}
+
 a {
   color: inherit;
   text-decoration: none;
