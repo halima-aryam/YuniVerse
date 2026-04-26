@@ -23,7 +23,15 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
+    // Fix issue 2: Remove ALL existing theme classes to prevent stacking and mismatches
+    document.documentElement.classList.remove("minimal", "dark-academia", "cottagecore");
+    
+    // Apply only the newly selected theme class
+    document.documentElement.classList.add(theme);
+
+    // Also update data-theme for safety/compatibility
     document.documentElement.setAttribute("data-theme", theme);
+    
     localStorage.setItem("yuniverse-theme", theme);
   }, [theme]);
 
