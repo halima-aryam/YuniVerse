@@ -28,6 +28,7 @@ export function SyllabusBuilder() {
   const [hasJoinedWaitlist, setHasJoinedWaitlist] = useState(false);
   const [isSubmittingEmail, setIsSubmittingEmail] = useState(false);
   const [hasGenerated, setHasGenerated] = useState(false);
+  const [loadingStep, setLoadingStep] = useState(0);
   const [user, setUser] = useState<any>(null);
   const [modules, setModules] = useState<Module[]>([
     { id: "1", title: "Introduction", items: ["Read chapter 1"] }
@@ -41,6 +42,26 @@ export function SyllabusBuilder() {
       setUser(session?.user ?? null);
     });
   }, []);
+
+  const loadingMessages = [
+    "Consulting the Yuniverse...",
+    "Dusting off ancient tomes...",
+    "Curating the perfect resources...",
+    "Aligning the syllabus with your vibe...",
+    "Finalizing your magical path..."
+  ];
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (isGenerating) {
+      interval = setInterval(() => {
+        setLoadingStep((prev) => Math.min(prev + 1, loadingMessages.length - 1));
+      }, 2000);
+    } else {
+      setLoadingStep(0);
+    }
+    return () => clearInterval(interval);
+  }, [isGenerating]);
 
   const addModule = () => {
     setModules([...modules, { id: Date.now().toString(), title: "New Module", items: [] }]);
@@ -236,11 +257,11 @@ export function SyllabusBuilder() {
           />
           <button 
             className="btn-primary" 
-            style={{ alignSelf: 'flex-start', background: 'var(--text-primary)', color: 'var(--bg-primary)' }}
+            style={{ alignSelf: 'flex-start', background: 'var(--text-primary)', color: 'var(--bg-primary)', transition: 'all 0.3s ease' }}
             onClick={generateWithAI}
             disabled={isGenerating}
           >
-            {isGenerating ? "Consulting the Yuniverse..." : "Discover a Path ✧"}
+            {isGenerating ? loadingMessages[loadingStep] : "Discover a Path ✧"}
           </button>
         </div>
         
