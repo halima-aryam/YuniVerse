@@ -1,6 +1,6 @@
 .container {
   padding: 2.5rem;
-  margin-top: 4rem;
+  margin-top: 0;
   border-top: 2px dashed var(--border-color);
   background: linear-gradient(180deg, transparent, rgba(var(--accent-rgb), 0.05));
 }

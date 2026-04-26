@@ -100,3 +100,24 @@
   color: var(--text-secondary);
   font-style: italic;
 }
+
+@media (max-width: 768px) {
+  .pageContainer {
+    padding: 0 1rem 2rem 1rem;
+  }
+  
+  .intro h1 {
+    font-size: 2.2rem;
+  }
+  
+  .masonry {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .curiosityCard {
+    padding: 1.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+}
