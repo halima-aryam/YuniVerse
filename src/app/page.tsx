@@ -21,17 +21,17 @@ export default function Home() {
         </header>
 
         <section className={styles.grid}>
-          <Link href="/builder?topic=Jazz+History+101" className={`glass-panel ${styles.cardLink}`}>
-            <h3>Jazz History 101</h3>
-            <p>A deep dive into the origins and evolution of jazz.</p>
+          <Link href="/builder?topic=The+Art+of+Kintsugi" className={`glass-panel ${styles.cardLink}`}>
+            <h3>The Art of Kintsugi</h3>
+            <p>The Japanese philosophy of repairing broken pottery with gold.</p>
           </Link>
-          <Link href="/builder?topic=French+Baking" className={`glass-panel ${styles.cardLink}`}>
-            <h3>French Baking</h3>
-            <p>From croissants to macarons, perfect your pastry skills.</p>
+          <Link href="/builder?topic=Victorian+Flower+Language" className={`glass-panel ${styles.cardLink}`}>
+            <h3>Victorian Flower Language</h3>
+            <p>Crafting beautiful bouquets embedded with secret, historical meanings.</p>
           </Link>
-          <Link href="/builder?topic=Stoicism" className={`glass-panel ${styles.cardLink}`}>
-            <h3>Stoicism</h3>
-            <p>Ancient philosophy for modern mental resilience.</p>
+          <Link href="/builder?topic=Mycology+and+Foraging" className={`glass-panel ${styles.cardLink}`}>
+            <h3>Mycology & Foraging</h3>
+            <p>Discovering the hidden fungal networks of the deep forest.</p>
           </Link>
         </section>
       </main>

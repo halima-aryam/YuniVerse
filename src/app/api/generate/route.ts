@@ -44,8 +44,8 @@ export async function POST(req: NextRequest) {
     const prompt = `Create a self-directed learning curriculum about "${topic}".
 The aesthetic vibe of the curriculum should be "${vibe}".
 CRITICAL INSTRUCTIONS:
-1. Be practical and clear. Do not use overly obscure or confusing whimsical language. Use normal, understandable words while maintaining a gentle, low-stress tone.
-2. Provide a list of 2-3 real, practical online resources (like a specific Wikipedia page, YouTube channel, or free course link) that the user can use to start learning.
+1. Be highly practical, specific, and actionable. Do not use fluffy or overly whimsical language (no "brew a cup of tea" or "take a quiet moment"). Focus on providing real, tangible learning steps.
+2. Provide a list of 2-3 real, practical online resources. You MUST recommend at least one high-quality, real-world book or physical tool available on Amazon in the 'resources' list. Provide a valid Amazon URL for it.
 Return the response strictly as a JSON object with this exact structure:
 {
   "resources": [
@@ -77,6 +77,23 @@ Return ONLY valid JSON. Do not include markdown code block syntax.`;
             ...m,
             id: Date.now().toString() + i
         }));
+    }
+
+    // Affiliate Link Interceptor
+    const AFFILIATE_TAG = "your-affiliate-tag-20"; // Replace with real tag later
+    if (data.resources && Array.isArray(data.resources)) {
+      data.resources = data.resources.map((res: any) => {
+        if (res.url && res.url.includes("amazon.com")) {
+           try {
+             const urlObj = new URL(res.url);
+             urlObj.searchParams.set("tag", AFFILIATE_TAG);
+             res.url = urlObj.toString();
+           } catch(e) {
+             // Ignore invalid URL parsing errors
+           }
+        }
+        return res;
+      });
     }
 
     return NextResponse.json(data);
