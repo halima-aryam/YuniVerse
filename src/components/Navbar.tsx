@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { ThemeSelector } from "./ThemeSelector";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import { User } from "@supabase/supabase-js";
 import { AuthModal } from "./AuthModal";
@@ -11,6 +11,8 @@ import styles from "./Navbar.module.css";
 export function Navbar({ showBack = false }: { showBack?: boolean }) {
   const [user, setUser] = useState<User | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Check active session
@@ -23,7 +25,18 @@ export function Navbar({ showBack = false }: { showBack?: boolean }) {
       setUser(session?.user ?? null);
     });
 
-    return () => subscription.unsubscribe();
+    // Close menu on click outside
+    function handleClickOutside(event: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsMenuOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      subscription.unsubscribe();
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   const handleAuthClick = async () => {
@@ -33,6 +46,8 @@ export function Navbar({ showBack = false }: { showBack?: boolean }) {
       setIsModalOpen(true);
     }
   };
+
+  const closeMenu = () => setIsMenuOpen(false);
 
   return (
     <>
@@ -48,19 +63,37 @@ export function Navbar({ showBack = false }: { showBack?: boolean }) {
         )}
 
         <div className={styles.links}>
-          <Link href="/explore" className={styles.linkItem}>
-            Explore
-          </Link>
-          <Link href="/cabinet" className={styles.linkItem}>
-            My Cabinet
-          </Link>
-          <button 
-            onClick={handleAuthClick}
-            className={styles.authBtn}
-          >
-            {user ? 'Log out' : 'Log in'}
-          </button>
+          <div className={styles.desktopLinks}>
+            <Link href="/explore" className={styles.linkItem}>
+              Explore
+            </Link>
+            <Link href="/cabinet" className={styles.linkItem}>
+              My Cabinet
+            </Link>
+            <button 
+              onClick={handleAuthClick}
+              className={styles.authBtn}
+            >
+              {user ? 'Log out' : 'Log in'}
+            </button>
+          </div>
+          
           <ThemeSelector />
+
+          <div className={styles.hamburgerMenu} ref={menuRef}>
+            <button className={styles.hamburgerBtn} onClick={() => setIsMenuOpen(!isMenuOpen)}>
+              ☰
+            </button>
+            {isMenuOpen && (
+              <div className={styles.dropdown}>
+                <Link href="/explore" className={styles.dropdownItem} onClick={closeMenu}>Explore</Link>
+                <Link href="/cabinet" className={styles.dropdownItem} onClick={closeMenu}>My Cabinet</Link>
+                <button onClick={() => { closeMenu(); handleAuthClick(); }} className={styles.dropdownItem}>
+                  {user ? 'Log out' : 'Log in'}
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </nav>
 
