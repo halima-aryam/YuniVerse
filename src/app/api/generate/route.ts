@@ -45,7 +45,9 @@ export async function POST(req: NextRequest) {
 The aesthetic vibe of the curriculum should be "${vibe}".
 CRITICAL INSTRUCTIONS:
 1. Be highly practical, specific, and actionable. Do not use fluffy or overly whimsical language (no "brew a cup of tea" or "take a quiet moment"). Focus on providing real, tangible learning steps.
-2. Provide a list of 2-3 real, practical online resources. You MUST recommend at least one high-quality, real-world book or physical tool available on Amazon in the 'resources' list. Provide a valid Amazon URL for it.
+2. Provide a list of 2-3 real, practical online resources. You MUST recommend at least one high-quality, real-world book or physical tool available on Amazon in the 'resources' list.
+3. CRITICAL: Do NOT hallucinate exact URLs as they often break. Instead, generate valid search URLs for the resources. For YouTube use \`https://www.youtube.com/results?search_query=[keywords]\`, for Wikipedia use \`https://en.wikipedia.org/w/index.php?search=[keywords]\`, and for Amazon use \`https://www.amazon.com/s?k=[book+title]\`.
+4. Each module MUST contain at least one step that explicitly requires watching a relevant YouTube tutorial or video.
 Return the response strictly as a JSON object with this exact structure:
 {
   "resources": [
