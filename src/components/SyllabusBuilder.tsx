@@ -14,6 +14,7 @@ interface Module {
   id: string;
   title: string;
   items: string[];
+  resource?: { title: string; url: string; };
 }
 
 export function SyllabusBuilder() {
@@ -155,7 +156,13 @@ export function SyllabusBuilder() {
         const mod = modules[i];
         const { data: modData, error: modError } = await supabase
           .from('modules')
-          .insert({ syllabus_id: syllabusData.id, title: mod.title, order_index: i })
+          .insert({ 
+            syllabus_id: syllabusData.id, 
+            title: mod.title, 
+            order_index: i,
+            resource_title: mod.resource?.title || null,
+            resource_url: mod.resource?.url || null
+          })
           .select()
           .single();
 
@@ -236,6 +243,14 @@ export function SyllabusBuilder() {
                 <HomeworkCard key={i} prompt={item} />
               ))}
             </div>
+            
+            {mod.resource && (
+              <div style={{ marginTop: "2rem", padding: "1.5rem", background: "var(--bg-card)", border: "1px solid var(--border-color)", borderRadius: "12px", display: "inline-block" }}>
+                <a href={mod.resource.url} target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", gap: "0.5rem", color: "var(--text-primary)", textDecoration: "none", fontSize: "1.1rem", fontFamily: "var(--font-serif), serif", transition: "color 0.2s ease" }} onMouseEnter={e => e.currentTarget.style.color = "var(--accent)"} onMouseLeave={e => e.currentTarget.style.color = "var(--text-primary)"}>
+                  ✦ Start here: <span style={{ textDecoration: "underline", textDecorationColor: "var(--accent)", textUnderlineOffset: "4px" }}>{mod.resource.title}</span>
+                </a>
+              </div>
+            )}
           </div>
         ))}
 
@@ -333,9 +348,40 @@ export function SyllabusBuilder() {
               ))}
             </ul>
             
-            <button className={styles.addItemBtn} onClick={() => addLearningItem(mod.id)}>
-              + Add a spark
-            </button>
+            {mod.resource && (
+              <div style={{ marginTop: "1rem", paddingTop: "1rem", borderTop: "1px dashed var(--border-color)", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                <span style={{ fontSize: "0.85rem", color: "var(--text-secondary)", textTransform: "uppercase", letterSpacing: "0.05em" }}>Curated Resource</span>
+                <input 
+                  type="text" 
+                  value={mod.resource.title}
+                  onChange={(e) => {
+                    const newMods = [...modules];
+                    newMods[index].resource = { ...newMods[index].resource!, title: e.target.value };
+                    setModules(newMods);
+                  }}
+                  className={styles.itemInput}
+                  placeholder="Resource title..."
+                />
+                <input 
+                  type="text" 
+                  value={mod.resource.url}
+                  onChange={(e) => {
+                    const newMods = [...modules];
+                    newMods[index].resource = { ...newMods[index].resource!, url: e.target.value };
+                    setModules(newMods);
+                  }}
+                  className={styles.itemInput}
+                  placeholder="Resource URL..."
+                  style={{ fontSize: "0.9rem", color: "var(--text-secondary)" }}
+                />
+              </div>
+            )}
+            
+            <div style={{ display: "flex", gap: "1rem", marginTop: "1.5rem" }}>
+              <button className={styles.addItemBtn} onClick={() => addLearningItem(mod.id)}>
+                + Add a spark
+              </button>
+            </div>
           </div>
         ))}
       </div>

@@ -25,7 +25,11 @@ export async function POST(req: NextRequest) {
               `Read a 5-minute introductory article on ${topic}`,
               `Watch a beginner's video on YouTube`,
               `Take a quiet moment to reflect on why you chose this topic`
-            ]
+            ],
+            resource: {
+              title: `Book: The Origins of ${topic}`,
+              url: `https://www.amazon.com/s?k=${topic}+book`
+            }
           },
           {
             id: (Date.now() + 1).toString(),
@@ -34,7 +38,11 @@ export async function POST(req: NextRequest) {
               `Find a cozy spot and listen to a podcast about ${topic}`,
               `Jot down 3 sentences about the most interesting thing you learned`,
               `Share a cool fact with a friend`
-            ]
+            ],
+            resource: {
+              title: `YouTube: Deep Dive into ${topic}`,
+              url: `https://www.youtube.com/results?search_query=advanced+${topic}`
+            }
           }
         ]
       });
@@ -46,10 +54,11 @@ export async function POST(req: NextRequest) {
     const prompt = `Create a self-directed learning curriculum about "${topic}".
 The aesthetic vibe of the curriculum should be "${vibe}".
 CRITICAL INSTRUCTIONS:
-1. Be highly practical, specific, and actionable. Do not use fluffy or overly whimsical language (no "brew a cup of tea" or "take a quiet moment"). Focus on providing real, tangible learning steps.
-2. Provide a list of 2-3 real, practical online resources. You MUST recommend at least one high-quality, real-world book or physical tool available on Amazon in the 'resources' list.
-3. CRITICAL: Do NOT hallucinate exact URLs as they often break. Instead, generate valid search URLs for the resources. For YouTube use \`https://www.youtube.com/results?search_query=[keywords]\`, for Wikipedia use \`https://en.wikipedia.org/w/index.php?search=[keywords]\`, and for Amazon use \`https://www.amazon.com/s?k=[book+title]\`.
-4. Each module MUST contain at least one step that explicitly requires watching a relevant YouTube tutorial or video.
+1. Be highly practical, specific, and actionable. Do not use fluffy or overly whimsical language. Focus on providing real, tangible learning steps.
+2. Provide a list of 2-3 real, practical online resources in the 'resources' list.
+3. CRITICAL: For EACH module, you MUST include a contextually relevant 'resource' object containing a 'title' and 'url'. Mix up the types (Books, YouTube, Articles, Documentaries).
+4. CRITICAL: Do NOT hallucinate exact URLs as they often break. Instead, generate valid search URLs for the resources. For YouTube use \`https://www.youtube.com/results?search_query=[keywords]\`, for Wikipedia use \`https://en.wikipedia.org/w/index.php?search=[keywords]\`, and for Amazon use \`https://www.amazon.com/s?k=[book+title]\`.
+5. Each module MUST contain at least one step that explicitly requires using its provided resource.
 Return the response strictly as a JSON object with this exact structure:
 {
   "resources": [
@@ -58,7 +67,11 @@ Return the response strictly as a JSON object with this exact structure:
   "modules": [
     {
       "title": "Module Name",
-      "items": ["actionable short learning step 1", "actionable short learning step 2"]
+      "items": ["actionable short learning step 1", "actionable short learning step 2"],
+      "resource": {
+        "title": "YouTube: How to ...",
+        "url": "https://www.youtube.com/results?search_query=..."
+      }
     }
   ]
 }
@@ -85,18 +98,28 @@ Return ONLY valid JSON. Do not include markdown code block syntax.`;
 
     // Affiliate Link Interceptor
     const AFFILIATE_TAG = "your-affiliate-tag-20"; // Replace with real tag later
-    if (data.resources && Array.isArray(data.resources)) {
-      data.resources = data.resources.map((res: any) => {
-        if (res.url && res.url.includes("amazon.com")) {
+    
+    const applyAffiliate = (res: any) => {
+        if (res && res.url && res.url.includes("amazon.com")) {
            try {
              const urlObj = new URL(res.url);
              urlObj.searchParams.set("tag", AFFILIATE_TAG);
              res.url = urlObj.toString();
-           } catch(e) {
-             // Ignore invalid URL parsing errors
-           }
+           } catch(e) {}
         }
         return res;
+    };
+
+    if (data.resources && Array.isArray(data.resources)) {
+      data.resources = data.resources.map(applyAffiliate);
+    }
+    
+    if (data.modules && Array.isArray(data.modules)) {
+      data.modules = data.modules.map((mod: any) => {
+          if (mod.resource) {
+              mod.resource = applyAffiliate(mod.resource);
+          }
+          return mod;
       });
     }
 
