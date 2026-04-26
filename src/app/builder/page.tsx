@@ -9,11 +9,7 @@ export default function BuilderPage() {
       <Navbar showBack={true} />
       
       <main className={styles.main}>
-        <div className={styles.intro}>
-          <h1>Create your path.</h1>
-          <p>No grades, no pressure. Just a map for your curiosity.</p>
-        </div>
-        
+
         <Suspense fallback={<div style={{ textAlign: 'center', padding: '4rem', color: 'var(--text-secondary)' }}>Waking up the Yuniverse...</div>}>
           <SyllabusBuilder />
         </Suspense>
