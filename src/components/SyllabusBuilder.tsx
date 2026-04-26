@@ -362,18 +362,38 @@ export function SyllabusBuilder() {
                   className={styles.itemInput}
                   placeholder="Resource title..."
                 />
-                <input 
-                  type="text" 
-                  value={mod.resource.url}
-                  onChange={(e) => {
-                    const newMods = [...modules];
-                    newMods[index].resource = { ...newMods[index].resource!, url: e.target.value };
-                    setModules(newMods);
-                  }}
-                  className={styles.itemInput}
-                  placeholder="Resource URL..."
-                  style={{ fontSize: "0.9rem", color: "var(--text-secondary)" }}
-                />
+                <div style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
+                  <input 
+                    type="text" 
+                    value={mod.resource.url}
+                    onChange={(e) => {
+                      const newMods = [...modules];
+                      newMods[index].resource = { ...newMods[index].resource!, url: e.target.value };
+                      setModules(newMods);
+                    }}
+                    className={styles.itemInput}
+                    placeholder="Resource URL..."
+                    style={{ fontSize: "0.9rem", color: "var(--text-secondary)", flex: 1 }}
+                  />
+                  <a 
+                    href={mod.resource.url} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    style={{
+                      background: "rgba(0,0,0,0.05)",
+                      padding: "0.4rem 0.8rem",
+                      borderRadius: "6px",
+                      fontSize: "0.85rem",
+                      color: "var(--text-primary)",
+                      textDecoration: "none",
+                      whiteSpace: "nowrap"
+                    }}
+                    onMouseEnter={e => e.currentTarget.style.background = "var(--accent)"}
+                    onMouseLeave={e => e.currentTarget.style.background = "rgba(0,0,0,0.05)"}
+                  >
+                    Open ↗
+                  </a>
+                </div>
               </div>
             )}
             
