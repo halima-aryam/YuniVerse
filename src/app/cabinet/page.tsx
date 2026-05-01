@@ -102,7 +102,7 @@ export default function CabinetPage() {
             {activeSyllabi.length > 0 && (
               <div style={{ marginBottom: "2rem" }}>
                 <h3 style={{ fontFamily: "var(--font-serif), serif", fontSize: "1.8rem", marginBottom: "1.5rem" }}>Active Journeys</h3>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "1.5rem" }}>
+                <div className={styles.pathsGrid}>
                   {activeSyllabi.map((syl) => (
                     <div key={syl.id} className="glass-panel" data-vibe={syl.vibe} style={{ padding: "1.5rem", borderLeft: "4px solid var(--accent)", display: "flex", flexDirection: "column", gap: "1rem" }}>
                       <div>
@@ -133,7 +133,7 @@ export default function CabinetPage() {
             {completedSyllabi.length > 0 && (
               <div style={{ marginBottom: "2rem" }}>
                 <h3 style={{ fontFamily: "var(--font-serif), serif", fontSize: "1.8rem", marginBottom: "1.5rem", color: "var(--accent)" }}>✦ Trophy Case</h3>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", gap: "1.5rem" }}>
+                <div className={styles.pathsGrid}>
                   {completedSyllabi.map((syl) => (
                     <div 
                       key={syl.id} 

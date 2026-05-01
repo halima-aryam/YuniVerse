@@ -2,6 +2,7 @@ import styles from "./page.module.css";
 import { ThemeSelector } from "@/components/ThemeSelector";
 import Link from "next/link";
 import { Navbar } from "@/components/Navbar";
+import { LandingDashboard } from "@/components/LandingDashboard";
 
 export default function Home() {
   return (
@@ -19,6 +20,8 @@ export default function Home() {
             <Link href="/explore" className={styles.btnSecondary} style={{ display: 'inline-block', textDecoration: 'none' }}>Explore Community</Link>
           </div>
         </header>
+
+        <LandingDashboard />
       </main>
     </div>
   );

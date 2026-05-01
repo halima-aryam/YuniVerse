@@ -101,6 +101,12 @@
   font-style: italic;
 }
 
+.pathsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
 @media (max-width: 768px) {
   .pageContainer {
     padding: 0 1rem 2rem 1rem;
@@ -113,6 +119,10 @@
   .masonry {
     grid-template-columns: 1fr;
     gap: 1.5rem;
+  }
+
+  .pathsGrid {
+    grid-template-columns: 1fr;
   }
   
   .curiosityCard {
