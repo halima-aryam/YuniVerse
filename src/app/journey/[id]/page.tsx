@@ -6,10 +6,11 @@ import { supabase } from "@/lib/supabaseClient";
 import { Navbar } from "@/components/Navbar";
 import { HomeworkCard } from "@/components/HomeworkCard";
 import styles from "./page.module.css";
-import { ThemeProvider } from "@/components/ThemeProvider";
+import { useTheme } from "@/components/ThemeProvider";
 
 export default function JourneyPage() {
   const { id } = useParams();
+  const { setTheme } = useTheme();
   const [syllabus, setSyllabus] = useState<any>(null);
   const [modules, setModules] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -29,6 +30,11 @@ export default function JourneyPage() {
         return;
       }
       setSyllabus(syllabusData);
+      
+      // Update global theme to match the vibe of the saved syllabus
+      if (syllabusData.vibe) {
+        setTheme(syllabusData.vibe);
+      }
 
       const { data: modsData, error: modError } = await supabase
         .from('modules')
@@ -79,9 +85,8 @@ export default function JourneyPage() {
   }
 
   return (
-    <ThemeProvider initialTheme={syllabus.vibe}>
-      <div className={styles.container}>
-        <Navbar showBack={true} />
+    <div className={styles.container}>
+      <Navbar showBack={true} />
         <main className={styles.main}>
           <div className={styles.header}>
             <h1 className={styles.title}>{syllabus.title}</h1>
@@ -116,6 +121,5 @@ export default function JourneyPage() {
           </div>
         </main>
       </div>
-    </ThemeProvider>
   );
 }
