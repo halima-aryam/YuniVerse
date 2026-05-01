@@ -19,8 +19,6 @@ export default function Home() {
             <Link href="/explore" className={styles.btnSecondary} style={{ display: 'inline-block', textDecoration: 'none' }}>Explore Community</Link>
           </div>
         </header>
-
-        </header>
       </main>
     </div>
   );
