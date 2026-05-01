@@ -8,8 +8,9 @@ import Link from "next/link";
 
 // Fallback mock data in case the database is empty
 const MOCK_PATHS = [
-  { id: 'mock1', author: "@stargazer", title: "Astrophysics for Poets", description: "A gentle introduction to the cosmos.", vibe: "dark-academia", sparksCount: 12 },
-  { id: 'mock2', author: "@mossy_stone", title: "Urban Foraging", description: "Learn to identify edible plants hidden in plain sight.", vibe: "cottagecore", sparksCount: 8 }
+  { id: 'mock1', author: "@curator", title: "The Art of Kintsugi", description: "The Japanese philosophy of repairing broken pottery with gold.", vibe: "minimal", sparksCount: 12 },
+  { id: 'mock2', author: "@mossy_stone", title: "Mycology & Foraging", description: "Discovering the hidden fungal networks of the deep forest.", vibe: "cottagecore", sparksCount: 8 },
+  { id: 'mock3', author: "@poet_laureate", title: "Victorian Flower Language", description: "Crafting beautiful bouquets embedded with secret, historical meanings.", vibe: "dark-academia", sparksCount: 15 }
 ];
 
 export default function ExplorePage() {

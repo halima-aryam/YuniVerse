@@ -25,7 +25,7 @@
 .certificateContainer {
   background: var(--bg-primary);
   width: 100%;
-  max-width: 800px;
+  max-width: 850px;
   border-radius: 4px;
   padding: 1.5rem;
   box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2);
@@ -40,12 +40,14 @@
 
 .borderInner {
   border: 4px double var(--border-color);
-  padding: 3rem 2rem;
+  padding: 2rem 3rem;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   position: relative;
+  min-height: 520px;
 }
 
 /* Vibe Stylings */
@@ -84,16 +86,16 @@
 
 .seal {
   font-size: 2.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .header {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .title {
   font-family: var(--font-serif), serif;
-  font-size: 3rem;
+  font-size: 2.8rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   margin-bottom: 0.5rem;
@@ -108,9 +110,9 @@
 
 .name {
   font-family: var(--font-serif), serif;
-  font-size: 3.5rem;
+  font-size: 3.2rem;
   font-weight: 400;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
   border-bottom: 2px solid var(--border-color);
   padding-bottom: 0.5rem;
   display: inline-block;
@@ -118,19 +120,19 @@
 }
 
 .body {
-  margin-bottom: 4rem;
+  margin-bottom: 3rem;
 }
 
 .body p {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   color: var(--text-secondary);
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
 .topic {
   font-family: var(--font-serif), serif;
-  font-size: 2.5rem;
-  margin-top: 1rem;
+  font-size: 2.2rem;
+  margin-top: 0.8rem;
   color: var(--text-primary);
 }
 

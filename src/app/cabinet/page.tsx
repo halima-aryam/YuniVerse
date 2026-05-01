@@ -6,6 +6,7 @@ import { Navbar } from "@/components/Navbar";
 import { supabase } from "@/lib/supabaseClient";
 import { ProgressRitual } from "@/components/ProgressRitual";
 import { CertificateModal } from "@/components/CertificateModal";
+import Link from "next/link";
 
 export default function CabinetPage() {
   const [reflections, setReflections] = useState<any[]>([]);
@@ -105,7 +106,11 @@ export default function CabinetPage() {
                   {activeSyllabi.map((syl) => (
                     <div key={syl.id} className="glass-panel" data-vibe={syl.vibe} style={{ padding: "1.5rem", borderLeft: "4px solid var(--accent)", display: "flex", flexDirection: "column", gap: "1rem" }}>
                       <div>
-                        <h4 style={{ fontFamily: "var(--font-serif), serif", fontSize: "1.3rem", marginBottom: "0.5rem" }}>{syl.title}</h4>
+                        <Link href={`/journey/${syl.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                          <h4 style={{ fontFamily: "var(--font-serif), serif", fontSize: "1.3rem", marginBottom: "0.5rem", cursor: "pointer" }} onMouseEnter={e => e.currentTarget.style.color = "var(--accent)"} onMouseLeave={e => e.currentTarget.style.color = "inherit"}>
+                            {syl.title} ↗
+                          </h4>
+                        </Link>
                         <p style={{ fontSize: "0.9rem", color: "var(--text-secondary)" }}>
                            Saved on {new Date(syl.created_at).toLocaleDateString()}
                         </p>

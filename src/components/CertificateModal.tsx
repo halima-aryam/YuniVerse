@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import styles from "./CertificateModal.module.css";
 import confetti from "canvas-confetti";
+import html2canvas from "html2canvas";
+import { jsPDF } from "jspdf";
 
 interface CertificateModalProps {
   isOpen: boolean;
@@ -15,6 +17,31 @@ interface CertificateModalProps {
 
 export function CertificateModal({ isOpen, onClose, topic, vibe, date, userName = "Curious Explorer" }: CertificateModalProps) {
   const [isVisible, setIsVisible] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
+  const certificateRef = useRef<HTMLDivElement>(null);
+
+  const downloadPDF = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!certificateRef.current) return;
+    setIsDownloading(true);
+    try {
+      const canvas = await html2canvas(certificateRef.current, { scale: 2, useCORS: true, backgroundColor: null });
+      const imgData = canvas.toDataURL("image/png");
+      
+      const pdf = new jsPDF({
+        orientation: "landscape",
+        unit: "px",
+        format: [canvas.width, canvas.height]
+      });
+      
+      pdf.addImage(imgData, "PNG", 0, 0, canvas.width, canvas.height);
+      pdf.save(`${topic.replace(/[^a-zA-Z0-9]/g, '_')}_Certificate.pdf`);
+    } catch (err) {
+      console.error("Failed to generate PDF", err);
+    } finally {
+      setIsDownloading(false);
+    }
+  };
 
   useEffect(() => {
     if (isOpen) {
@@ -46,10 +73,12 @@ export function CertificateModal({ isOpen, onClose, topic, vibe, date, userName 
 
   return (
     <div className={`${styles.overlay} ${isOpen ? styles.open : ""}`} onClick={onClose}>
-      <div 
-        className={`${styles.certificateContainer} ${styles[vibe]}`} 
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', width: '100%', maxWidth: '850px' }}>
+        <div 
+          ref={certificateRef}
+          className={`${styles.certificateContainer} ${styles[vibe]}`} 
+          onClick={(e) => e.stopPropagation()}
+        >
         <div className={styles.borderInner}>
           <div className={styles.header}>
             <div className={styles.seal}>✦</div>
@@ -79,6 +108,29 @@ export function CertificateModal({ isOpen, onClose, topic, vibe, date, userName 
           </div>
         </div>
         <button className={styles.closeBtn} onClick={onClose}>×</button>
+        </div>
+        
+        <button 
+          onClick={downloadPDF}
+          disabled={isDownloading}
+          style={{ 
+            background: "var(--text-primary)", 
+            color: "var(--bg-primary)", 
+            border: "none", 
+            padding: "0.8rem 1.5rem", 
+            borderRadius: "99px", 
+            fontFamily: "var(--font-sans), sans-serif",
+            fontSize: "1rem",
+            cursor: "pointer",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+            transition: "transform 0.2s ease",
+            zIndex: 1001
+          }}
+          onMouseEnter={e => e.currentTarget.style.transform = "scale(1.05)"}
+          onMouseLeave={e => e.currentTarget.style.transform = "scale(1)"}
+        >
+          {isDownloading ? "Generating PDF..." : "↓ Download as PDF"}
+        </button>
       </div>
     </div>
   );
