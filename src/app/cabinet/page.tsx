@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import styles from "./page.module.css";
 import { Navbar } from "@/components/Navbar";
 import { supabase } from "@/lib/supabaseClient";
-import { ProgressRitual } from "@/components/ProgressRitual";
 import { CertificateModal } from "@/components/CertificateModal";
 import Link from "next/link";
 
@@ -80,13 +79,6 @@ export default function CabinetPage() {
           <div className={styles.intro}>
             <h1>Your Cabinet of Curiosities.</h1>
             <p>A visual archive of every path you've explored and every reflection you've sealed.</p>
-          </div>
-          
-          {/* Top Section: Cozy Check-in */}
-          <div style={{ display: "flex", justifyContent: "center" }}>
-             <div style={{ width: "100%", maxWidth: "600px" }}>
-               <ProgressRitual syllabusTitle="Daily Journal" vibe="minimal" />
-             </div>
           </div>
         </div>
 

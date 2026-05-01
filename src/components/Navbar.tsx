@@ -67,6 +67,9 @@ export function Navbar({ showBack = false }: { showBack?: boolean }) {
             <Link href="/explore" className={styles.linkItem}>
               Explore
             </Link>
+            <Link href="/checkin" className={styles.linkItem}>
+              Check-in
+            </Link>
             <Link href="/cabinet" className={styles.linkItem}>
               My Cabinet
             </Link>
@@ -87,6 +90,7 @@ export function Navbar({ showBack = false }: { showBack?: boolean }) {
             {isMenuOpen && (
               <div className={styles.dropdown}>
                 <Link href="/explore" className={styles.dropdownItem} onClick={closeMenu}>Explore</Link>
+                <Link href="/checkin" className={styles.dropdownItem} onClick={closeMenu}>Check-in</Link>
                 <Link href="/cabinet" className={styles.dropdownItem} onClick={closeMenu}>My Cabinet</Link>
                 <button onClick={() => { closeMenu(); handleAuthClick(); }} className={styles.dropdownItem}>
                   {user ? 'Log out' : 'Log in'}
