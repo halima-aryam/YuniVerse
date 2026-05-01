@@ -46,6 +46,8 @@ export function CertificateModal({ isOpen, onClose, topic, vibe, date, userName 
   useEffect(() => {
     if (isOpen) {
       setIsVisible(true);
+      document.body.style.overflow = 'hidden';
+
       // Trigger magical confetti
       const duration = 3 * 1000;
       const animationEnd = Date.now() + duration;
@@ -65,15 +67,22 @@ export function CertificateModal({ isOpen, onClose, topic, vibe, date, userName 
         confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
       }, 250);
     } else {
-      setTimeout(() => setIsVisible(false), 300);
+      setTimeout(() => {
+        setIsVisible(false);
+        document.body.style.overflow = 'unset';
+      }, 300);
     }
+    
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
   }, [isOpen]);
 
   if (!isOpen && !isVisible) return null;
 
   return (
     <div className={`${styles.overlay} ${isOpen ? styles.open : ""}`} onClick={onClose}>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', width: '100%', maxWidth: '850px', margin: 'auto', padding: '2rem 0' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', width: '100%', maxWidth: '850px', marginTop: 'auto', marginBottom: 'auto' }}>
         <div 
           ref={certificateRef}
           className={`${styles.certificateContainer} ${styles[vibe]}`} 
