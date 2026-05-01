@@ -73,7 +73,7 @@ export function CertificateModal({ isOpen, onClose, topic, vibe, date, userName 
 
   return (
     <div className={`${styles.overlay} ${isOpen ? styles.open : ""}`} onClick={onClose}>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', width: '100%', maxWidth: '850px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', width: '100%', maxWidth: '850px', margin: 'auto', padding: '2rem 0' }}>
         <div 
           ref={certificateRef}
           className={`${styles.certificateContainer} ${styles[vibe]}`} 
